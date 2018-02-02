@@ -1,3 +1,14 @@
+"""Calculate "Time At Temperature" required for a thermosetting resin to reach a desired degree of cure.
+   Takes as input data from Differential Scanning Calorimeter (DSC) and constant temperature ramp. Uses
+   Uses Vyazkovin nonlinear method described by Sbirrazzuoli, 2009.
+
+   Code by Craig Lawrie, (c) 2018.
+
+   Reference:
+   Sbirrazzuoli, Nicolas, et al. "Integral, differential and advanced isoconversional methods: complex
+   mechanisms and isothermal predicted conversion–time curves." Chemometrics and Intelligent Laboratory
+   Systems 96.2 (2009): 219-226.
+"""
 
 import sys
 import numpy as np     # installed with matplotlib
@@ -85,7 +96,7 @@ def main():
     rate_of_cure5[:-1] = np.diff(degree_of_cure5) / np.diff(ds5['t'])
     rate_of_cure5[-1] = rate_of_cure5[-2]
 
-    plt.ioff()
+    #plt.ioff()
 
     # Plot rate of cure vs degree of cure AND temperature
     fig = plt.figure(4)
@@ -96,5 +107,37 @@ def main():
     ax.scatter(ds4['Ts'], degree_of_cure4, rate_of_cure4)
     ax.scatter(ds5['Ts'], degree_of_cure5, rate_of_cure5)
     plt.show()
+
+    # Minimize sum(sum(J(i)/J(j))) for i != j
+    # J(i) = \int_t_{\alpha-\Delta\alpha}^{t_\alpha} dt \exp{-E/{R T_i(t)}}
+    # by varying E.
+    # Repeat for a reasonable sampling of alpha.
+    phi = 0; J_i = 0; J_j = 0;
+    runs = 3
+    alpha_range = np.arange(0.1,1.0,0.01)
+    E_value = np.zeros(alpha_range.shape)
+
+    for alpha_step in range(alpha_range.size):
+        phi_min = sys.float_info.max
+        E_phi_min = 0
+        E_min = 0
+        E_max = 10000
+        E_steps = 100
+        for k in range(runs):
+            step_size = (E_max - E_min) / E_steps
+            for E_value in np.arange(E_min, E_max, step_size):
+                phi = 0;
+                for i in range(1, 5):
+                    for j in range(i + 1, 5):
+                        # This is where the calculations happen.
+                        J_i = cumtrapz(np.exp(-E_value/(R*T_i_array))) # T_i_array needs to be a series of temperatures indexed by time, ranging from t=t_{\alpha-\Delta\alpha} to t=t_\alpha
+                        J_j = cumtrapz(np.exp(-E_value/(R*T_j_array))) # same for T_j_array
+                        phi += J_i/J_j
+                if phi < phi_min:
+                    phi_min = phi
+                    E_phi_min = E_value
+            E_min = E_phi_min - step_size
+            E_max = E_phi_min + step_size
+                
 
 main()
