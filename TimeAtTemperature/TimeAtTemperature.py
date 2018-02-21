@@ -45,7 +45,6 @@ def main():
     #plt.show()
 
     # Calculate total heat of reaction by integrating heat flux over time
-    heats = [cumtrapz(ds_val['Value'], ds_val['t'], initial=0) for ds_val in {ds1, ds2, ds3, ds4, ds5}]
 
     heat1 = cumtrapz(ds1['Value'],ds1['t'],initial = 0)
     heat2 = cumtrapz(ds2['Value'],ds2['t'],initial = 0)
