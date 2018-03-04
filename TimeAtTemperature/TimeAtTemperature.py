@@ -36,13 +36,24 @@ def main():
     plt.ion()
 
     # Plot heat flux vs time
-    #plt.figure(1)
-    #plt.plot(ds1['t'], ds1['Value'])
-    #plt.plot(ds2['t'], ds2['Value'])
-    #plt.plot(ds3['t'], ds3['Value'])
-    #plt.plot(ds4['t'], ds4['Value'])
-    #plt.plot(ds5['t'], ds5['Value'])
-    #plt.show()
+    plt.figure(1)
+    plt.plot(ds1['t'], ds1['Value'])
+    plt.plot(ds2['t'], ds2['Value'])
+    plt.plot(ds3['t'], ds3['Value'])
+    plt.plot(ds4['t'], ds4['Value'])
+    plt.plot(ds5['t'], ds5['Value'])
+    plt.title('Curing Data From 5 Different Heating Rates')
+    plt.xlabel('Time (s)')
+    plt.ylabel('Heat Energy Flux (mW / mg)')
+    plt.show()
+
+    # Plot heat flux vs time
+    plt.figure(8)
+    plt.plot(ds1['t'], ds1['Value'])
+    plt.title('An Example Dataset, Heated at $1^\circ$C/min')
+    plt.xlabel('Time (s)')
+    plt.ylabel('Heat Energy Flux (mW / mg)')
+    plt.show()
 
     # Calculate total heat of reaction by integrating heat flux over time
 
@@ -69,13 +80,23 @@ def main():
     degree_of_cure5 = heat5 / heat5[-1]
 
     ## Plot degree of cure
-    #plt.figure(3)
-    #plt.plot(ds1['t'], degree_of_cure1)
-    #plt.plot(ds2['t'], degree_of_cure2)
-    #plt.plot(ds3['t'], degree_of_cure3)
-    #plt.plot(ds4['t'], degree_of_cure4)
-    #plt.plot(ds5['t'], degree_of_cure5)
-    #plt.show()
+    plt.figure(3)
+    plt.plot(ds1['t'], degree_of_cure1*100)
+    plt.plot(ds2['t'], degree_of_cure2*100)
+    plt.plot(ds3['t'], degree_of_cure3*100)
+    plt.plot(ds4['t'], degree_of_cure4*100)
+    plt.plot(ds5['t'], degree_of_cure5*100)
+    plt.title('Degree of Cure For 5 Different Heating Rates')
+    plt.xlabel('time (s)')
+    plt.ylabel('Degree of Cure (%)')
+    plt.show()
+
+    plt.figure(9)
+    plt.plot(ds1['t'], degree_of_cure1*100)
+    plt.title('Degree of Cure, Sample Heated at $1^\circ$C/min')
+    plt.xlabel('time (s)')
+    plt.ylabel('Degree of Cure (%)')
+    plt.show()
 
     # Calculate rate of cure, d(alpha)/dt
     rate_of_cure1 = np.zeros(degree_of_cure1.shape)
