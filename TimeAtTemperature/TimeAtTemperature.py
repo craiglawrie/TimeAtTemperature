@@ -221,8 +221,7 @@ def main():
 
     # Calculate the time required to progress to a certain degree of cure at a
     # particular isothermal temperature
-    # t_\alpha = [\beta \exp(-E_\alpha / {RT_{iso}})]^{-1} \int_0^{T_\alpha}
-    # \exp(-E_\alpha / {RT}) dT
+    # t_\alpha=\sum_0^\alpha{[\exp(-E_\alpha/RT_{iso})]^{-1}\int_{t_{\alpha-\Delta\alpha}}^{t_\alpha}{\exp(-E_\alpha/RT(t))dt}}
     temp_iso_degF_min = 200
     temp_iso_degF_max = 500
     num_temp_steps = 9
