@@ -19,7 +19,8 @@ Please see the presentation in the "images" folder, or the python code TimeAtTem
 ## Running it Yourself
 All that is required is the TimeAtTemperature.py script and the contents in the data folder. To run this program using different data, the 
 pandas.cvs_read functions will need to be changed to refer to your data. The data file format must have an index column, a time column in s, 
-a temperature column in degrees C, and a measurement column in mW. See the existing data files for example formatting.
+a temperature column in degrees C, and a measurement column in mW. See the existing data files for example formatting. The .sln file and 
+.pyproj are overhead for Visual Studio, if you choose to run it that way.
 
 ## Reference
  * Sbirrazzuoli, Nicolas, et al. "Integral, differential and advanced isoconversional methods: complex
